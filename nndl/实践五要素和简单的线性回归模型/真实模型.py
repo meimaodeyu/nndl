@@ -1,6 +1,6 @@
 #真实函数的参数缺省值 w=1.2，b=0.5
 def linear_func(x, w=1.2,b=0.5):
-    y = w*x + b
+    y = w * x + b
     return y
 
 import paddle
