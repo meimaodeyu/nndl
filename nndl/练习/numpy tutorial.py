@@ -137,3 +137,150 @@ dot_product_ab = np.dot(a, b)
 print("a * b =\n", elementwise_product_ab)
 print("np.multiply(a, b) =\n", np_elementwise_product_ab)
 print("np.dot(a, b) =\n", dot_product_ab)
+
+'利用13题目中的x,y,输出 x / y .(提示 ： 使用函数 np.divide())'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+y = np.array([[5, 6], [7, 8]], dtype=np.float64)
+
+# 逐元素相除
+elementwise_division = x / y
+np_elementwise_division = np.divide(x, y)
+
+print("x / y =\n", elementwise_division)
+print("np.divide(x, y) =\n", np_elementwise_division)
+
+' 利用13题目中的x,输出 x的 开方。(提示： 使用函数 np.sqrt() )'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+y = np.array([[5, 6], [7, 8]], dtype=np.float64)
+
+sqrt_x = np.sqrt(x)
+
+print("sqrt(x) =\n",sqrt_x)
+
+'利用13题目中的x,y ,执行 print(x.dot(y)) 和 print(np.dot(x,y))'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+y = np.array([[5, 6], [7, 8]], dtype=np.float64)
+
+# 计算矩阵乘法
+dot_product_1 = x.dot(y)
+dot_product_2 = np.dot(x, y)
+
+# 输出结果
+print("x.dot(y) =\n", dot_product_1)
+print("np.dot(x, y) =\n", dot_product_2)
+
+'利用13题目中的 x,进行求和。提示：输出三种求和 (1)print(np.sum(x)): (2)print(np.sum(x，axis =0 )); (3)print(np.sum(x,axis = 1))'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+# (1) 求整个数组的和
+sum_total = np.sum(x)
+
+# (2) 沿着axis=0（列）方向求和 axis=0: 沿着垂直方向（列）进行操作，即对每一列进行操作。
+sum_axis_0 = np.sum(x, axis=0)
+
+# (3) 沿着axis=1（行）方向求和 axis=1: 沿着水平方向（行）进行操作，即对每一行进行操作。
+sum_axis_1 = np.sum(x, axis=1)
+
+# 输出结果
+print("np.sum(x) =\n", sum_total)
+print("np.sum(x, axis=0) =\n", sum_axis_0)
+print("np.sum(x, axis=1) =\n", sum_axis_1)
+
+'利用13题目中的 x,进行求平均数（提示：输出三种平均数(1)print(np.mean(x)) (2)print(np.mean(x,axis = 0))(3) print(np.mean(x,axis =1))）'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+
+#整个数组的平局数
+mean_total = np.mean(x)
+
+#沿着axis=0（列）方向求平均数
+mean_axis_0 = np.mean(x,axis=0)
+
+#沿着axis=1（行）方向求平均数
+mean_axis_1 = np.mean(x,axis=1)
+
+print("np.mean(x) =\n", mean_total)
+print("np.mean(x, axis=0) =\n",mean_axis_0)
+print("np.mean(x, axis=1) =\n",mean_axis_1)
+
+'.利用13题目中的x，对x 进行矩阵转置，然后输出转置后的结果，（提示： x.T 表示对 x 的转置）'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+
+# 对数组进行转置
+x_transposed = x.T
+
+# 输出转置后的结果
+print("Transpose of x:\n", x_transposed)
+
+'利用13题目中的x,求e的指数（提示： 函数 np.exp()）'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+
+#求e
+e_exp = np.exp(x)
+
+print("np.exp(x) =\n", e_exp)
+
+'.利用13题目中的 x,求值最大的下标（提示(1)print(np.argmax(x)) ,(2) print(np.argmax(x, axis =0))(3)print(np.argmax(x),axis =1))'
+x = np.array([[1, 2], [3, 4]], dtype=np.float64)
+
+# (1) 没有指定 axis，找到整个数组中值最大的索引
+max_index_total = np.argmax(x)
+
+# (2) 指定 axis=0，找到每列中值最大的索引
+max_index_axis_0 = np.argmax(x, axis=0)
+
+# (3) 指定 axis=1，找到每行中值最大的索引
+max_index_axis_1 = np.argmax(x, axis=1)
+
+# 输出结果
+print("(1) 最大值的索引 (整个数组):", max_index_total)
+print("(2) 每列最大值的索引:", max_index_axis_0)
+print("(3) 每行最大值的索引:", max_index_axis_1)
+
+'画图，y=x*x 其中 x = np.arange(0, 100, 0.1) （提示这里用到 matplotlib.pyplot 库）'
+import matplotlib.pyplot as plt
+
+# 生成 x 值
+x = np.arange(0, 100, 0.1)
+
+# 计算对应的 y 值
+y = x ** 2
+
+# 绘图
+plt.figure(figsize=(8, 6))  # 设置图形大小（可选）
+plt.plot(x, y, label='y = x^2')  # 绘制曲线
+plt.title('Plot of y = x^2')  # 设置标题
+plt.xlabel('x')  # 设置 x 轴标签
+plt.ylabel('y')  # 设置 y 轴标签
+plt.grid(True)  # 显示网格（可选）
+plt.legend()  # 显示图例（可选）
+plt.show()  # 显示图形
+
+'.画图。画正弦函数和余弦函数， x = np.arange(0, 3 * np.pi, 0.1)(提示：这里用到 np.sin() np.cos() 函数和 matplotlib.pyplot 库)'
+# 生成 x 值
+x = np.arange(0, 3 * np.pi, 0.1)
+
+# 计算正弦和余弦函数的值
+y_sin = np.sin(x)
+y_cos = np.cos(x)
+
+# 绘图
+plt.figure(figsize=(8, 6))  # 设置图形大小（可选）
+
+# 绘制正弦函数
+plt.plot(x, y_sin, label='sin(x)', color='b')
+
+# 绘制余弦函数
+plt.plot(x, y_cos, label='cos(x)', color='r')
+
+# 设置标题和标签
+plt.title('Plot of sin(x) and cos(x)')
+plt.xlabel('x')
+plt.ylabel('y')
+
+# 显示网格
+plt.grid(True)
+
+# 显示图例
+plt.legend()
+
+# 显示图形
+plt.show()

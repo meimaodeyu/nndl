@@ -72,15 +72,15 @@ class Linear(Op):
     def __init__(self, input_size):
         """
         输入：
-        input_size:模型要处理的数据特征向量长度
+        input_size:模型要处理的数据特征向量长度,权重向量的维度。
         """
 
         self.input_size = input_size
 
         #模型参数
         self.params = {}
-        self.params['w'] = paddle.randn(shape=[self.input_size, 1],dtype = 'float32')
-        self.params['b'] = paddle.zeros(shape=[1],dtype = 'float32')
+        self.params['w'] = paddle.randn(shape=[self.input_size, 1],dtype = 'float32')#随机生成符合标准正态分布的Tensor。
+        self.params['b'] = paddle.zeros(shape=[1],dtype = 'float32')#生成指定形状的全0Tensor
 
     def __call__(self, X):
         return self.forward(X)
@@ -89,19 +89,19 @@ class Linear(Op):
     def forward(self, X):
         """
         输入：
-           ——X： tensor， shape=【N,D]
+           ——X： tensor， shape=【N,D] 有n个样本，每个样本有D维的特征
            注意这里的x矩阵是由N个xi昂两的转置拼接而成的， 与原教材行向量表示方式不一致
         输出：
            ——y_pred： tensor， shape【N】
         """
         N,D = X.shape
 
-        if self.input_size == 0:
+        if self.input_size == 0:#如果权重向量为0
             return paddle.full(shape=[N, 1], fill_value =self.params['b'])
 
         assert D == self.input_size  #输入数据维度合法性验证
 
-        # 使用paddle。matmul计算两个tensor的成绩
+        # 使用paddle。matmul计算两个tensor的成绩 计算两个Tensor乘积遵循广播规则。
         y_pred = paddle.matmul(X,self.params['w'])+self.params['b']
 
         return y_pred
@@ -155,7 +155,7 @@ def optimizer_lsm(model, X, y, reg_lambda=0):
 #求标签的均值，shape=【1】
     y_bar = paddle.mean(y)
 
-#paddle.subtract通过广播的方式实现矩阵减向量
+#paddle.subtract通过广播的方式实现矩阵减向量，逐元素相减
     x_sub = paddle.subtract(X,x_bar_train)
 
 #使用paddle。all判断输入tensor是否全为0
@@ -164,7 +164,7 @@ def optimizer_lsm(model, X, y, reg_lambda=0):
        model.params['w'] = paddle.zeros(shape=[D])
        return model
 
-    tmp = paddle.inverse(paddle.matmul(x_sub.T,x_sub)+ reg_lambda*paddle.eye(num_rows=(D)))
+    tmp = paddle.inverse(paddle.matmul(x_sub.T,x_sub)+ reg_lambda*paddle.eye(num_rows=(D)))#paddle,inverse计算方阵的逆,paddle.eye构建二维Tensor（主对角线元素为1，其他元素为0）
 
     w = paddle.matmul(paddle.matmul(tmp,x_sub.T),(y - y_bar))
 
@@ -176,14 +176,15 @@ def optimizer_lsm(model, X, y, reg_lambda=0):
 
 #通过以上实现的线性回归类来拟合训练数据，并输出模型在训练集上的损失
 input_size = 1
-model = Linear(input_size)
-model = optimizer_lsm(model,X_train.reshape([-1,1]),y_train.reshape([-1,1]))
+model = Linear(input_size)#实例化模型
+model = optimizer_lsm(model,X_train.reshape([-1,1]),y_train.reshape([-1,1]))#将模型和实验数据传入优化器
 print("w_pred:",model.params['w'].item(),"b_per:",model.params['b'].item())
 
-y_train_pred = model(X_train.reshape([-1,1])).squeeze()
-train_error = mean_squared_error(y_true=y_train, y_pred=y_train_pred).item()
+y_train_pred = model(X_train.reshape([-1,1])).squeeze()#对训练数据做一个预测
+train_error = mean_squared_error(y_true=y_train, y_pred=y_train_pred).item()#通过均方误差计算训练损失
 print("train_error:",train_error)
 
+#reshape 保持输入数据不变的情况下，改变其形状，技巧是制定目标形状-1表示这个维度的值是从x的元素总和和剩余维度判断出来的，因此只有一个维度可以被设置为-1
 model_large = Linear(input_size)
 model_large = optimizer_lsm(model_large,X_train_large.reshape([-1,1]),y_train_large.reshape([-1,1]))
 print("w_per large:",model_large.params['w'].item(),"b_per large:",model_large.params['b'].item())
