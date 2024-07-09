@@ -44,21 +44,21 @@ def make_multiclass_classification(n_samples=100, n_features=2, n_classes=3, shu
         X_k += centroid
         X[start:stop, :n_features] = X_k
 
-        # 如果noise不为None，则给特征加入噪声
-        if noise > 0.0:
-            # 生成noise掩膜，用来指定给那些样本加入噪声
-            noise_mask = paddle.rand([n_samples]) < noise
-            for i in range(len(noise_mask)):
-                if noise_mask[i]:
-                    # 给加噪声的样本随机赋标签值
-                    y[i] = paddle.randint(n_classes, shape=[1]).astype('int32')
-        # 如果shuffle为True，将所有数据打乱
-        if shuffle:
-            idx = paddle.randperm(X.shape[0])
-            X = X[idx]
-            y = y[idx]
+    # 如果noise不为None，则给特征加入噪声
+    if noise > 0.0:
+        # 生成noise掩膜，用来指定给那些样本加入噪声
+        noise_mask = paddle.rand([n_samples]) < noise
+        for i in range(len(noise_mask)):
+            if noise_mask[i]:
+                # 给加噪声的样本随机赋标签值
+                y[i] = paddle.randint(n_classes, shape=[1]).astype('int32')
+    # 如果shuffle为True，将所有数据打乱
+    if shuffle:
+        idx = paddle.randperm(X.shape[0])
+        X = X[idx]
+        y = y[idx]
 
-        return X, y
+    return X, y
 # 固定随机种子，保持每次运行结果一致
 paddle.seed(102)
 # 采样1000个样本
