@@ -300,7 +300,7 @@ class RunnerV2(object):
                 print(f"[Train] epoch: {epoch}, loss: {trn_loss}, score: {trn_score}")
                 print(f"[Dev] epoch: {epoch}, loss: {dev_loss}, score: {dev_score}")
 
-        def evaluate(self, data_set):
+    def evaluate(self, data_set):
             X, y = data_set
             # 计算模型输出
             logits = self.model(X)
@@ -312,13 +312,13 @@ class RunnerV2(object):
             self.dev_scores.append(score)
             return score, loss
 
-        def predict(self, X):
+    def predict(self, X):
             return self.model(X)
 
-        def save_model(self, save_path):
+    def save_model(self, save_path):
             paddle.save(self.model.params, save_path)
 
-        def load_model(self, model_path):
+    def load_model(self, model_path):
             self.model.params = paddle.load(model_path)
 # 固定随机种子，保持每次运行结果一致
 paddle.seed(102)
