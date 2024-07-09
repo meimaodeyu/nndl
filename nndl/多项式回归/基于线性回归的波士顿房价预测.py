@@ -4,7 +4,7 @@ import paddle
 import paddle.nn as nn
 import os
 
-mse_loss = nn.MSELoss()
+mse_loss = nn.MSELoss()#计算预测值和目标值的均方差误差
 paddle.seed(10)
 
 # 利用pandas加载波士顿房价的数据集
