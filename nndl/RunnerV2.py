@@ -1,5 +1,7 @@
 import paddle
 
+
+# 新增RunnerV2类
 class RunnerV2(object):
     def __init__(self, model, optimizer, metric, loss_fn):
         self.model = model
@@ -53,22 +55,22 @@ class RunnerV2(object):
                 print(f"[Dev] epoch: {epoch}, loss: {dev_loss}, score: {dev_score}")
 
     def evaluate(self, data_set):
-            X, y = data_set
-            # 计算模型输出
-            logits = self.model(X)
-            # 计算损失函数
-            loss = self.loss_fn(logits, y).item()
-            self.dev_loss.append(loss)
-            # 计算评价指标
-            score = self.metric(logits, y).item()
-            self.dev_scores.append(score)
-            return score, loss
+        X, y = data_set
+        # 计算模型输出
+        logits = self.model(X)
+        # 计算损失函数
+        loss = self.loss_fn(logits, y).item()
+        self.dev_loss.append(loss)
+        # 计算评价指标
+        score = self.metric(logits, y).item()
+        self.dev_scores.append(score)
+        return score, loss
 
     def predict(self, X):
-            return self.model(X)
+        return self.model(X)
 
     def save_model(self, save_path):
-            paddle.save(self.model.params, save_path)
+        paddle.save(self.model.params, save_path)
 
     def load_model(self, model_path):
-            self.model.params = paddle.load(model_path)
+        self.model.params = paddle.load(model_path)

@@ -96,27 +96,27 @@ output_dim = 3
 # 实例化模型
 model = op.model_SR(input_dim=input_dim, output_dim=output_dim)
 
-from nndl import op, metric, GDopitimizer, RunnerV2
+from nndl import op, metric, Optimizer, RunnerV2
 
 # 学习率
 lr = 0.2
 
 # 梯度下降法
-optimizer = GDopitimizer.SimpleBatchGD(init_lr=lr, model=model)
+optimizer = Optimizer.SimpleBatchGD(init_lr=lr, model=model)
 # 交叉熵损失
 loss_fn = op.MultiCrossEntropyLoss()
 # 准确率
 metric = metric.accuracy
 
 # 实例化RunnerV2
-runner = RunnerV2(model, optimizer, metric, loss_fn)
+runner = RunnerV2.RunnerV2(model, optimizer, metric, loss_fn)
 
 # 启动训练
 runner.train([X_train, y_train], [X_dev, y_dev], num_epochs=200, log_epochs=10, save_path="best_model.pdparams")
 
 from nndl import plot
 
-plot(runner,fig_name='linear-acc3.pdf')
+plot.plot(runner,fig_name='linear-acc3.pdf')
 
 # 加载最优模型
 runner.load_model('best_model.pdparams')
