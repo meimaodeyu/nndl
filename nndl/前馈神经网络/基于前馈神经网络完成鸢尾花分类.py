@@ -3,7 +3,7 @@ import paddle
 import paddle.io as io
 from nndl.dataset1 import load_data
 
-class IrisDataset(io.Dataset):
+class IrisDataset(io.Dataset):#继承paddle.io.dataset进行数据读取
     def __init__(self, mode='train', num_train=120, num_dev=15):
         super(IrisDataset, self).__init__()
         # 调用第三章中的数据读取函数，其中不需要将标签转成one-hot类型
@@ -15,10 +15,10 @@ class IrisDataset(io.Dataset):
         else:
             self.X, self.y = X[num_train + num_dev:], y[num_train + num_dev:]
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):#实现__getitem__根据索引获取数据集中指定样本
         return self.X[idx], self.y[idx]
 
-    def __len__(self):
+    def __len__(self):#实现__len__返回数据集样本个数
         return len(self.y)
 
 paddle.seed(12)
@@ -66,7 +66,7 @@ class Model_MLP_L2_V3(nn.Layer):
         outputs = self.fc2(outputs)
         return outputs
 
-fnn_model = Model_MLP_L2_V3(input_size=4, output_size=3, hidden_size=6)
+fnn_model = Model_MLP_L2_V3(input_size=4, output_size=3, hidden_size=6)#输入层神经元4个（特征长度），输出层神经元3个（类别长度），隐藏层神经元6个
 
 from paddle.metric import Metric
 
@@ -297,7 +297,7 @@ model = fnn_model
 # 定义优化器
 optimizer = opt.SGD(learning_rate=lr, parameters=model.parameters())
 
-# 定义损失函数。softmax+交叉熵
+# 定义损失函数。softmax+交叉熵,softmax交叉熵损失函数，该函数会将softmax操作，交叉熵损失函数的计算过程进行合并，从而提供了数值上更加稳定的计算。
 loss_fn = F.cross_entropy
 
 # 定义评价指标
